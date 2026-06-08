@@ -27,18 +27,35 @@
 
       <!-- Images grid -->
       <div id="view-grid" class="view-grid hidden">
+
         <div class="id-card">
           <div class="id-card-label">
             <span class="dot dot-front"></span> Front of ID
           </div>
           <img id="img-front" src="" alt="Front of ID" />
+          <div class="id-card-footer">
+            <button class="btn-download" id="btn-dl-front" data-side="front">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download TIFF
+            </button>
+            <span class="dl-status" id="dl-status-front"></span>
+          </div>
         </div>
+
         <div class="id-card">
           <div class="id-card-label">
             <span class="dot dot-back"></span> Back of ID
           </div>
           <img id="img-back" src="" alt="Back of ID" />
+          <div class="id-card-footer">
+            <button class="btn-download" id="btn-dl-back" data-side="back">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download TIFF
+            </button>
+            <span class="dl-status" id="dl-status-back"></span>
+          </div>
         </div>
+
       </div>
 
       <div id="error-msg" class="error hidden"></div>

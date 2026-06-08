@@ -365,3 +365,48 @@ button:disabled { opacity: 0.35; cursor: not-allowed; }
   font-size: 0.85rem;
   color: #444;
 }
+
+/* ── ID card footer + download button ───────────────────────────────────── */
+.id-card-footer {
+  padding: 0.65rem 0.75rem;
+  border-top: 1px solid #1e1e1e;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #1a1a2e;
+  color: #818cf8;
+  border: 1px solid #2d2d5e;
+  border-radius: 7px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn-download:hover:not(:disabled) {
+  background: #2d2d5e;
+  color: #a5b4fc;
+}
+
+.btn-download:active { transform: scale(0.97); }
+.btn-download:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-download svg { flex-shrink: 0; }
+
+/* Download status text */
+.dl-status {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.dl-status--loading { color: #60a5fa; }
+.dl-status--success { color: #4ade80; }
+.dl-status--error   { color: #f87171; }
