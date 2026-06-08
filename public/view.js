@@ -1,119 +1,107 @@
-const loading      = document.getElementById("loading");
-const notFound     = document.getElementById("not-found");
-const viewGrid     = document.getElementById("view-grid");
-const imgFront     = document.getElementById("img-front");
-const imgBack      = document.getElementById("img-back");
-const subtitle     = document.getElementById("subtitle");
-const errorMsg     = document.getElementById("error-msg");
-const btnDlFront   = document.getElementById("btn-dl-front");
-const btnDlBack    = document.getElementById("btn-dl-back");
-const dlStatusFront = document.getElementById("dl-status-front");
-const dlStatusBack  = document.getElementById("dl-status-back");
+const loading    = document.getElementById("loading");
+const notFound   = document.getElementById("not-found");
+const main       = document.getElementById("main");
+const imgFront   = document.getElementById("img-front");
+const imgBack    = document.getElementById("img-back");
+const pageMeta   = document.getElementById("page-meta");
+const btnFront   = document.getElementById("btn-dl-front");
+const btnBack    = document.getElementById("btn-dl-back");
 
-// Holds the raw base64 data URLs after load so download can use them
 let images = { front: null, back: null };
 
-// Extract slug from URL path: /view/<slug>
 const slug = window.location.pathname.split("/").filter(Boolean).pop();
+slug ? loadImages(slug) : showNotFound();
 
-if (!slug) {
-  showNotFound();
-} else {
-  loadImages(slug);
-}
-
-// ── Load images from API ──────────────────────────────────────────────────────
+// ── Load ──────────────────────────────────────────────────────────────────────
 
 async function loadImages(slug) {
   try {
-    const response = await fetch(`/api/view/${slug}`);
+    const res = await fetch(`/api/view/${slug}`);
+    if (res.status === 404) { showNotFound(); return; }
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
-    if (response.status === 404) {
-      showNotFound();
-      return;
-    }
-
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    // Store for download use
+    const data = await res.json();
     images.front = data.frontImage;
     images.back  = data.backImage;
 
     imgFront.src = data.frontImage;
     imgBack.src  = data.backImage;
 
-    const created = new Date(data.createdAt);
-    subtitle.textContent = `Captured on ${created.toLocaleDateString(undefined, {
+    const d = new Date(data.createdAt);
+    pageMeta.textContent = `Captured ${d.toLocaleDateString(undefined, {
       year: "numeric", month: "long", day: "numeric"
-    })}`;
+    })} · Expires in 7 days`;
 
     loading.classList.add("hidden");
-    viewGrid.classList.remove("hidden");
+    main.classList.remove("hidden");
   } catch (err) {
     loading.classList.add("hidden");
-    errorMsg.textContent = `Failed to load images: ${err.message}`;
-    errorMsg.classList.remove("hidden");
+    showNotFound();
   }
 }
 
 function showNotFound() {
   loading.classList.add("hidden");
   notFound.classList.remove("hidden");
-  subtitle.textContent = "";
 }
 
-// ── Download as TIFF ──────────────────────────────────────────────────────────
+// ── Download TIFF ─────────────────────────────────────────────────────────────
 
 async function downloadTiff(side) {
+  const btn      = side === "front" ? btnFront : btnBack;
   const imageData = images[side];
-  if (!imageData) return;
+  if (!imageData || btn.disabled) return;
 
-  const btn       = side === "front" ? btnDlFront : btnDlBack;
-  const statusEl  = side === "front" ? dlStatusFront : dlStatusBack;
-  const filename  = `id-${side}.tiff`;
+  const filename = `id-${side}.tiff`;
 
+  // Loading state
   btn.disabled = true;
-  statusEl.textContent = "Converting…";
-  statusEl.className = "dl-status dl-status--loading";
+  btn.classList.add("loading");
+  btn.textContent = "";
 
   try {
-    const response = await fetch("/api/convert", {
+    const res = await fetch("/api/convert", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ image: imageData }),
     });
 
-    if (!response.ok) {
-      const data = await response.json().catch(() => ({}));
-      throw new Error(data.error || `Server error: ${response.status}`);
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}));
+      throw new Error(d.error || `Error ${res.status}`);
     }
 
-    const blob = await response.blob();
+    const blob = await res.blob();
     const url  = URL.createObjectURL(blob);
-
-    // Trigger download
-    const link = document.createElement("a");
-    link.href     = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    statusEl.textContent = "Downloaded!";
-    statusEl.className = "dl-status dl-status--success";
-    setTimeout(() => { statusEl.textContent = ""; statusEl.className = "dl-status"; }, 3000);
+    // Success state
+    btn.classList.remove("loading");
+    btn.classList.add("done");
+    btn.textContent = "SAVED ✓";
+    setTimeout(() => {
+      btn.classList.remove("done");
+      btn.textContent = "DOWNLOAD";
+      btn.disabled = false;
+    }, 2500);
+
   } catch (err) {
-    statusEl.textContent = `Failed: ${err.message}`;
-    statusEl.className = "dl-status dl-status--error";
-  } finally {
-    btn.disabled = false;
+    btn.classList.remove("loading");
+    btn.classList.add("error");
+    btn.textContent = "FAILED";
+    setTimeout(() => {
+      btn.classList.remove("error");
+      btn.textContent = "DOWNLOAD";
+      btn.disabled = false;
+    }, 2500);
   }
 }
 
-btnDlFront.addEventListener("click", () => downloadTiff("front"));
-btnDlBack.addEventListener("click",  () => downloadTiff("back"));
+btnFront.addEventListener("click", () => downloadTiff("front"));
+btnBack.addEventListener("click",  () => downloadTiff("back"));
