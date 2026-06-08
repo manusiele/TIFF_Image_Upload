@@ -1,25 +1,23 @@
-const loading  = document.getElementById("loading");
-const notFound = document.getElementById("not-found");
-const main     = document.getElementById("main");
-const imgFront = document.getElementById("img-front");
-const imgBack  = document.getElementById("img-back");
-const pageMeta = document.getElementById("page-meta");
-const deck     = document.getElementById("deck");
-const dot0     = document.getElementById("dot-0");
-const dot1     = document.getElementById("dot-1");
-const btnPrev  = document.getElementById("btn-prev");
-const btnNext  = document.getElementById("btn-next");
-const btnDlFront = document.getElementById("btn-dl-front");
-const btnDlBack  = document.getElementById("btn-dl-back");
+const loading     = document.getElementById("loading");
+const notFound    = document.getElementById("not-found");
+const pageFront   = document.getElementById("page-front");
+const pageBack    = document.getElementById("page-back");
+const imgFront    = document.getElementById("img-front");
+const imgBack     = document.getElementById("img-back");
+const metaFront   = document.getElementById("page-meta-front");
+const metaBack    = document.getElementById("page-meta-back");
+const btnDlFront  = document.getElementById("btn-dl-front");
+const btnDlBack   = document.getElementById("btn-dl-back");
+const btnNextFront = document.getElementById("btn-next-front");
+const btnPrevBack  = document.getElementById("btn-prev-back");
 
-let images  = { front: null, back: null };
-let current = 0; // 0 = front, 1 = back
+let images = { front: null, back: null };
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 const slug = window.location.pathname.split("/").filter(Boolean).pop();
 slug ? loadImages(slug) : showNotFound();
 
-// ── Fetch images ──────────────────────────────────────────────────────────────
+// ── Fetch ─────────────────────────────────────────────────────────────────────
 async function loadImages(slug) {
   try {
     const res = await fetch(`/api/view/${slug}`);
@@ -34,13 +32,14 @@ async function loadImages(slug) {
     imgBack.src  = data.backImage;
 
     const d = new Date(data.createdAt);
-    pageMeta.textContent = d.toLocaleDateString(undefined, {
+    const label = d.toLocaleDateString(undefined, {
       month: "short", day: "numeric", year: "numeric"
     });
+    metaFront.textContent = label;
+    metaBack.textContent  = label;
 
     loading.classList.add("hidden");
-    main.classList.remove("hidden");
-    goTo(0); // start on page 1
+    pageFront.classList.remove("hidden");
   } catch {
     loading.classList.add("hidden");
     showNotFound();
@@ -52,40 +51,27 @@ function showNotFound() {
   notFound.classList.remove("hidden");
 }
 
-// ── Pagination ────────────────────────────────────────────────────────────────
-function goTo(page) {
-  current = page;
+// ── Navigation ────────────────────────────────────────────────────────────────
+btnNextFront.addEventListener("click", () => {
+  pageFront.classList.add("hidden");
+  pageBack.classList.remove("hidden");
+  window.scrollTo(0, 0);
+});
 
-  deck.classList.toggle("page-2", page === 1);
-  deck.classList.toggle("page-1", page === 0);
+btnPrevBack.addEventListener("click", () => {
+  pageBack.classList.add("hidden");
+  pageFront.classList.remove("hidden");
+  window.scrollTo(0, 0);
+});
 
-  // Dots
-  dot0.classList.toggle("active", page === 0);
-  dot1.classList.toggle("active", page === 1);
-
-  // Nav buttons
-  btnPrev.disabled = page === 0;
-  btnNext.disabled = page === 1;
-
-  // Style next button on last page
-  if (page === 1) {
-    btnNext.textContent = "Last page";
-  } else {
-    btnNext.textContent = "Next →";
-  }
-}
-
-btnNext.addEventListener("click", () => { if (current < 1) goTo(current + 1); });
-btnPrev.addEventListener("click", () => { if (current > 0) goTo(current - 1); });
-
-// Touch/swipe support
-let touchStartX = 0;
-document.addEventListener("touchstart", e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+// Swipe support
+let tx = 0;
+document.addEventListener("touchstart", e => { tx = e.touches[0].clientX; }, { passive: true });
 document.addEventListener("touchend", e => {
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  if (Math.abs(dx) < 50) return;
-  if (dx < 0 && current === 0) goTo(1); // swipe left → next
-  if (dx > 0 && current === 1) goTo(0); // swipe right → prev
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) < 55) return;
+  if (dx < 0 && !pageFront.classList.contains("hidden")) btnNextFront.click();
+  if (dx > 0 && !pageBack.classList.contains("hidden"))  btnPrevBack.click();
 }, { passive: true });
 
 // ── Download TIFF ─────────────────────────────────────────────────────────────
