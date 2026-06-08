@@ -23,36 +23,60 @@
     <!-- Main view -->
     <div id="main" class="hidden">
 
-      <p class="page-meta" id="page-meta"></p>
-
-      <!-- Front card -->
-      <div class="card">
-        <img class="card-img" id="img-front" src="" alt="Front of ID" />
-        <div class="card-overlay">
-          <div class="card-row">
-            <div class="card-info">
-              <span class="card-badge">Front of ID</span>
-              <h2 class="card-title">ID — Front</h2>
-              <p class="card-sub">Tap to download as TIFF</p>
-            </div>
-            <button class="pill-btn" id="btn-dl-front">DOWNLOAD</button>
-          </div>
+      <!-- Top bar -->
+      <div class="top-bar">
+        <span class="page-meta" id="page-meta"></span>
+        <div class="page-dots">
+          <span class="dot active" id="dot-0"></span>
+          <span class="dot" id="dot-1"></span>
         </div>
       </div>
 
-      <!-- Back card -->
-      <div class="card">
-        <img class="card-img" id="img-back" src="" alt="Back of ID" />
-        <div class="card-overlay">
-          <div class="card-row">
-            <div class="card-info">
-              <span class="card-badge">Back of ID</span>
-              <h2 class="card-title">ID — Back</h2>
-              <p class="card-sub">Tap to download as TIFF</p>
+      <!-- Card deck — slides left/right -->
+      <div class="deck-wrapper">
+        <div class="deck" id="deck">
+
+          <!-- Page 1: Front -->
+          <div class="slide">
+            <div class="card">
+              <img class="card-img" id="img-front" src="" alt="Front of ID" />
+              <div class="card-overlay">
+                <div class="card-row">
+                  <div class="card-info">
+                    <span class="card-badge">1 of 2</span>
+                    <h2 class="card-title">Front of ID</h2>
+                    <p class="card-sub">Download as TIFF for Photoshop</p>
+                  </div>
+                  <button class="pill-btn" id="btn-dl-front">DOWNLOAD</button>
+                </div>
+              </div>
             </div>
-            <button class="pill-btn" id="btn-dl-back">DOWNLOAD</button>
           </div>
+
+          <!-- Page 2: Back -->
+          <div class="slide">
+            <div class="card">
+              <img class="card-img" id="img-back" src="" alt="Back of ID" />
+              <div class="card-overlay">
+                <div class="card-row">
+                  <div class="card-info">
+                    <span class="card-badge">2 of 2</span>
+                    <h2 class="card-title">Back of ID</h2>
+                    <p class="card-sub">Download as TIFF for Photoshop</p>
+                  </div>
+                  <button class="pill-btn" id="btn-dl-back">DOWNLOAD</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
+      </div>
+
+      <!-- Bottom nav -->
+      <div class="bottom-nav">
+        <button class="nav-btn" id="btn-prev" disabled>← Back</button>
+        <button class="nav-btn nav-btn--primary" id="btn-next">Next →</button>
       </div>
 
     </div>
