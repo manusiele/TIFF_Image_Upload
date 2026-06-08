@@ -25,9 +25,9 @@ module.exports = async function handler(req, res) {
     // Decode base64 string into a raw buffer
     const inputBuffer = Buffer.from(base64Data, "base64");
 
-    // Convert PNG buffer → TIFF buffer using sharp (lossless)
+    // Convert PNG buffer → TIFF buffer using sharp (lossless LZW)
     const tiffBuffer = await sharp(inputBuffer)
-      .tiff({ compression: "lzw" }) // lossless LZW compression
+      .tiff({ compression: "lzw" })
       .toBuffer();
 
     // Send TIFF binary as a downloadable file
