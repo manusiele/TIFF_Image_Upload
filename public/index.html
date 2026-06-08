@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ID Capture — Step 1</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <div class="container">
 
-      <!-- Step indicator -->
       <div class="steps">
         <div class="step active">
           <div class="step-num">1</div>
@@ -22,17 +21,19 @@
         </div>
       </div>
 
-      <h1>Capture Front of ID</h1>
-      <p class="subtitle">Position the front side of the ID card in the frame, then click Capture.</p>
+      <h1>Front of ID</h1>
+      <p class="subtitle" id="instruction">Position the front of the ID card in the frame, then tap Capture.</p>
 
-      <div class="video-wrapper">
+      <!-- Live camera -->
+      <div class="video-wrapper" id="camera-wrapper">
         <video id="video" autoplay playsinline></video>
         <div id="placeholder" class="placeholder"><span>Camera feed will appear here</span></div>
       </div>
 
       <!-- Preview after capture -->
-      <div id="preview-wrapper" class="video-wrapper hidden">
+      <div id="preview-wrapper" class="preview-wrapper hidden">
         <img id="preview" src="" alt="Front ID preview" />
+        <div class="preview-badge">✓ Front captured</div>
       </div>
 
       <div id="error-msg" class="error hidden"></div>
@@ -42,12 +43,12 @@
         <button id="btn-start" class="btn-primary">Start Camera</button>
         <button id="btn-capture" class="btn-success" disabled>Capture</button>
         <button id="btn-retake" class="btn-secondary hidden">Retake</button>
-        <button id="btn-next" class="btn-primary hidden">Next →</button>
+        <button id="btn-next" class="btn-primary hidden">Next — Back of ID →</button>
       </div>
 
     </div>
 
     <canvas id="canvas" style="display:none"></canvas>
-    <script src="step1.js"></script>
+    <script src="/step1.js"></script>
   </body>
 </html>

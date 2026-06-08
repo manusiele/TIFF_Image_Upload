@@ -62,10 +62,10 @@ btnCapture.addEventListener("click", () => {
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   capturedImage = canvas.toDataURL("image/jpeg", 0.92);
 
-  // Show preview, hide live feed
+  // Show preview, hide live feed + camera wrapper
   preview.src = capturedImage;
   previewWrap.classList.remove("hidden");
-  video.style.display = "none";
+  document.getElementById("camera-wrapper").classList.add("hidden");
 
   // Swap buttons
   btnCapture.classList.add("hidden");
@@ -81,6 +81,7 @@ btnRetake.addEventListener("click", () => {
   clearMessages();
   capturedImage = null;
   previewWrap.classList.add("hidden");
+  document.getElementById("camera-wrapper").classList.remove("hidden");
   video.style.display = "block";
 
   btnRetake.classList.add("hidden");
@@ -93,5 +94,5 @@ btnRetake.addEventListener("click", () => {
 btnNext.addEventListener("click", () => {
   if (!capturedImage) return;
   sessionStorage.setItem("frontImage", capturedImage);
-  window.location.href = "step2.html";
+  window.location.href = "/step2.html";
 });

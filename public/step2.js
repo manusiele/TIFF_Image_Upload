@@ -18,7 +18,7 @@ let capturedImage = null;
 // Guard: must have front image from step 1
 const frontImage = sessionStorage.getItem("frontImage");
 if (!frontImage) {
-  window.location.href = "index.html";
+  window.location.href = "/";
 }
 
 function showError(msg) {
@@ -73,7 +73,7 @@ btnCapture.addEventListener("click", () => {
 
   preview.src = capturedImage;
   previewWrap.classList.remove("hidden");
-  video.style.display = "none";
+  document.getElementById("camera-wrapper").classList.add("hidden");
 
   btnCapture.classList.add("hidden");
   btnStart.classList.add("hidden");
@@ -88,6 +88,7 @@ btnRetake.addEventListener("click", () => {
   clearMessages();
   capturedImage = null;
   previewWrap.classList.add("hidden");
+  document.getElementById("camera-wrapper").classList.remove("hidden");
   video.style.display = "block";
 
   btnRetake.classList.add("hidden");

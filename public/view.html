@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ID Viewer</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <div class="container">
 
       <h1>ID Document</h1>
-      <p class="subtitle" id="subtitle">Loading…</p>
+      <p class="subtitle" id="subtitle">&nbsp;</p>
 
       <!-- Loading state -->
       <div id="loading" class="loading-spinner">
@@ -20,18 +20,23 @@
 
       <!-- Not found state -->
       <div id="not-found" class="not-found hidden">
+        <div class="not-found-icon">🔗</div>
         <h2>Link not found</h2>
         <p>This link may have expired or never existed.</p>
       </div>
 
-      <!-- Images -->
+      <!-- Images grid -->
       <div id="view-grid" class="view-grid hidden">
         <div class="id-card">
-          <div class="id-card-label">Front</div>
+          <div class="id-card-label">
+            <span class="dot dot-front"></span> Front of ID
+          </div>
           <img id="img-front" src="" alt="Front of ID" />
         </div>
         <div class="id-card">
-          <div class="id-card-label">Back</div>
+          <div class="id-card-label">
+            <span class="dot dot-back"></span> Back of ID
+          </div>
           <img id="img-back" src="" alt="Back of ID" />
         </div>
       </div>
@@ -40,6 +45,6 @@
 
     </div>
 
-    <script src="view.js"></script>
+    <script src="/view.js"></script>
   </body>
 </html>

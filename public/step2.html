@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ID Capture — Step 2</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <div class="container">
 
-      <!-- Step indicator -->
       <div class="steps">
         <div class="step done">
           <div class="step-num">✓</div>
@@ -22,17 +21,19 @@
         </div>
       </div>
 
-      <h1>Capture Back of ID</h1>
-      <p class="subtitle">Flip the ID card and position the back side in the frame, then click Capture.</p>
+      <h1>Back of ID</h1>
+      <p class="subtitle" id="instruction">Flip the card and position the back side in the frame, then tap Capture.</p>
 
-      <div class="video-wrapper">
+      <!-- Live camera -->
+      <div class="video-wrapper" id="camera-wrapper">
         <video id="video" autoplay playsinline></video>
         <div id="placeholder" class="placeholder"><span>Camera feed will appear here</span></div>
       </div>
 
       <!-- Preview after capture -->
-      <div id="preview-wrapper" class="video-wrapper hidden">
+      <div id="preview-wrapper" class="preview-wrapper hidden">
         <img id="preview" src="" alt="Back ID preview" />
+        <div class="preview-badge">✓ Back captured</div>
       </div>
 
       <div id="error-msg" class="error hidden"></div>
@@ -47,17 +48,17 @@
 
       <!-- Share box shown after successful upload -->
       <div id="share-box" class="share-box hidden">
-        <label>Shareable link (expires in 7 days)</label>
+        <label>Shareable link</label>
         <div class="url-row">
           <input id="share-url" type="text" readonly />
           <button class="btn-copy" id="btn-copy">Copy</button>
         </div>
-        <span class="expires-note">Anyone with this link can view both ID images.</span>
+        <span class="expires-note">🕐 Expires in 7 days · Anyone with this link can view both images</span>
       </div>
 
     </div>
 
     <canvas id="canvas" style="display:none"></canvas>
-    <script src="step2.js"></script>
+    <script src="/step2.js"></script>
   </body>
 </html>
