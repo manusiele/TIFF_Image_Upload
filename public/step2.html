@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ID Capture — Step 1</title>
+    <title>ID Capture — Step 2</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -11,19 +11,19 @@
 
       <!-- Step indicator -->
       <div class="steps">
-        <div class="step active">
-          <div class="step-num">1</div>
+        <div class="step done">
+          <div class="step-num">✓</div>
           <span>Front of ID</span>
         </div>
         <div class="step-divider"></div>
-        <div class="step">
+        <div class="step active">
           <div class="step-num">2</div>
           <span>Back of ID</span>
         </div>
       </div>
 
-      <h1>Capture Front of ID</h1>
-      <p class="subtitle">Position the front side of the ID card in the frame, then click Capture.</p>
+      <h1>Capture Back of ID</h1>
+      <p class="subtitle">Flip the ID card and position the back side in the frame, then click Capture.</p>
 
       <div class="video-wrapper">
         <video id="video" autoplay playsinline></video>
@@ -32,7 +32,7 @@
 
       <!-- Preview after capture -->
       <div id="preview-wrapper" class="video-wrapper hidden">
-        <img id="preview" src="" alt="Front ID preview" />
+        <img id="preview" src="" alt="Back ID preview" />
       </div>
 
       <div id="error-msg" class="error hidden"></div>
@@ -42,12 +42,22 @@
         <button id="btn-start" class="btn-primary">Start Camera</button>
         <button id="btn-capture" class="btn-success" disabled>Capture</button>
         <button id="btn-retake" class="btn-secondary hidden">Retake</button>
-        <button id="btn-next" class="btn-primary hidden">Next →</button>
+        <button id="btn-submit" class="btn-success hidden">Generate Link</button>
+      </div>
+
+      <!-- Share box shown after successful upload -->
+      <div id="share-box" class="share-box hidden">
+        <label>Shareable link (expires in 7 days)</label>
+        <div class="url-row">
+          <input id="share-url" type="text" readonly />
+          <button class="btn-copy" id="btn-copy">Copy</button>
+        </div>
+        <span class="expires-note">Anyone with this link can view both ID images.</span>
       </div>
 
     </div>
 
     <canvas id="canvas" style="display:none"></canvas>
-    <script src="step1.js"></script>
+    <script src="step2.js"></script>
   </body>
 </html>

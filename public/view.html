@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ID Viewer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+
+      <h1>ID Document</h1>
+      <p class="subtitle" id="subtitle">Loading…</p>
+
+      <!-- Loading state -->
+      <div id="loading" class="loading-spinner">
+        <div class="spinner"></div>
+        <span>Fetching images…</span>
+      </div>
+
+      <!-- Not found state -->
+      <div id="not-found" class="not-found hidden">
+        <h2>Link not found</h2>
+        <p>This link may have expired or never existed.</p>
+      </div>
+
+      <!-- Images -->
+      <div id="view-grid" class="view-grid hidden">
+        <div class="id-card">
+          <div class="id-card-label">Front</div>
+          <img id="img-front" src="" alt="Front of ID" />
+        </div>
+        <div class="id-card">
+          <div class="id-card-label">Back</div>
+          <img id="img-back" src="" alt="Back of ID" />
+        </div>
+      </div>
+
+      <div id="error-msg" class="error hidden"></div>
+
+    </div>
+
+    <script src="view.js"></script>
+  </body>
+</html>

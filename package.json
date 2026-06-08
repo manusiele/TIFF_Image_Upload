@@ -1,11 +1,12 @@
 {
   "name": "tiff-image-upload",
   "version": "1.0.0",
-  "description": "Capture a camera frame and download it as a TIFF file",
+  "description": "Capture ID card images and share via a unique link",
   "scripts": {
     "dev": "vercel dev"
   },
   "dependencies": {
+    "@neondatabase/serverless": "0.9.5",
     "sharp": "0.33.4"
   }
 }
