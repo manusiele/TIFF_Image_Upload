@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Camera to TIFF</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Camera → TIFF</h1>
+      <p class="subtitle">Capture a frame from your camera and download it as a Photoshop-ready TIFF file.</p>
+
+      <div class="video-wrapper">
+        <video id="video" autoplay playsinline></video>
+        <div id="placeholder" class="placeholder">
+          <span>Camera feed will appear here</span>
+        </div>
+      </div>
+
+      <div id="error-msg" class="error hidden"></div>
+      <div id="status-msg" class="status hidden"></div>
+
+      <div class="controls">
+        <button id="btn-start">Start Camera</button>
+        <button id="btn-capture" disabled>Capture &amp; Download TIFF</button>
+      </div>
+
+      <!-- Hidden canvas used for frame grabbing -->
+      <canvas id="canvas" style="display:none"></canvas>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

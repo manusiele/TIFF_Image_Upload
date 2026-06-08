@@ -1,0 +1,11 @@
+{
+  "name": "tiff-image-upload",
+  "version": "1.0.0",
+  "description": "Capture a camera frame and download it as a TIFF file",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "sharp": "0.33.4"
+  }
+}
