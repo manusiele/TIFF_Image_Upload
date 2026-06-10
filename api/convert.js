@@ -3,7 +3,7 @@ const sharp = require("sharp");
 /**
  * POST /api/convert
  * Body: { image: "<base64 PNG string>" }
- * Response: TIFF binary file download
+ * Response: TIFF binary file download (300 DPI, LZW, print-ready for Photoshop)
  */
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -34,9 +34,15 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    // Convert PNG buffer → TIFF buffer using sharp (lossless LZW)
+    // Convert PNG buffer → print-ready TIFF (300 DPI, LZW lossless)
     const tiffBuffer = await sharp(inputBuffer)
-      .tiff({ compression: "lzw" })
+      .tiff({
+        compression: "lzw",
+        predictor: "horizontal", // better compression for photos
+        resolutionUnit: "inch",
+        xres: 300,               // 300 DPI — print/Photoshop quality
+        yres: 300,
+      })
       .toBuffer();
 
     console.log("TIFF output size:", tiffBuffer.length, "bytes");
@@ -50,7 +56,6 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     console.error("Conversion error:", err.message);
 
-    // Distinguish sharp errors from other failures
     if (err.message.includes("Input buffer contains unsupported image format")) {
       res.status(400).json({ error: "Invalid image data — could not decode PNG" });
     } else if (err.message.includes("memory")) {
